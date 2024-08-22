@@ -1,0 +1,169 @@
+:root {
+    --ig-separator: 219, 219, 219;
+  }
+  body {
+    font-family: Roboto, serif;
+  }
+  .navbar{
+    background-color: #e9ecef !important;
+  }
+  .sidebar {
+    width: 250px;
+    background-color: #e9ecef;
+    padding-top: 10px;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    border-right: 1px solid rgb(var(--ig-separator));
+    display: flex;
+    flex-direction: column;
+    // margin-top: 55px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adjust values as needed */
+  }
+  .sidebar-menu li{
+    cursor: pointer;
+  }
+  .logo-wrapper {
+    width: 100%;
+    padding: 5px 25px;
+    margin-bottom: 20px;
+  }
+  .logo-wrapper img {
+    width: 105px;
+  }
+  .sidebar-menu {
+    font-size: 1rem;
+    list-style-type: none;
+    padding: 0 12px 20px 8px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+  }
+  .sidebar-menu.bottom {
+    flex-grow: 0;
+    margin-bottom: 40px;
+  }
+  .sidebar-menu li a.nav-link {
+    border-radius: 10px;
+    padding: 16px 15px;
+    color: #333333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  .sidebar-menu li a.nav-link.active {
+    font-weight: bold;
+  }
+  .sidebar-menu li a.nav-link.active img.icon {
+    border: 2px solid black;
+  }
+  .sidebar-menu li a.nav-link .icon {
+    margin-right: 15px;
+    width: 24px;
+    height: 24px;
+    transition: all 0.2s ease-in-out;
+  }
+  .sidebar-menu li a.nav-link:hover {
+    background-color: #F5F5F5;
+  }
+  .sidebar-menu li a.nav-link:hover .icon {
+    transform: scale(1.08);
+  }
+  .rounded-circle {
+    border-radius: 100%;
+  }
+  .logo{
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 40px;
+    margin-top: -15px;
+  }
+  .submenu{
+    font-size: 14px;
+  }
+  .table-container{
+    margin-left: 280px;
+    width: 80%;
+  }
+  h5{
+    padding: 20px 10px;
+  }
+  .text-center i{
+    margin-right: 15px;
+  }
+label{
+  font-weight: bold;
+}
+.margin-left{
+  margin-left: 100px;
+}
+.margin-right{
+  margin-right:10px;
+}
+.cursor{
+  cursor: pointer;
+}
+.container1{
+  margin: 0 auto;
+}
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex{
+  display: flex;
+}
+.margin{
+  margin-right: 10px;
+}
+.rightIcon{
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  background-color: #ccc;
+  margin-right: 50px;
+  cursor: pointer;
+}
+.rightIcon i{
+  font-size: 25px;
+  margin: 5px 9px;
+}
+
+/* Hide navbar and sidebar on mobile devices */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+  }
+  .table-container {
+    margin-top: 0; /* Adjust margin-top if needed */
+  }
+}
+
+/* Ensure table and dialogs are full width on mobile */
+@media (max-width: 768px) {
+  .card, .p-dialog {
+    width: 100% !important;
+  }
+}
+
+/* Adjust form elements for smaller screens */
+@media (max-width: 768px) {
+  .input-container {
+    flex: 1 1 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .margin-left {
+    margin-left: 0;
+  }
+  .table-container{
+    margin-left: 0;
+  }
+}

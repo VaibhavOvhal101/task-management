@@ -1,0 +1,98 @@
+{
+  "Task": [
+    {
+      "title": "Create Database Schema",
+      "description": "Design and create the database schema for the project.",
+      "dueDate": "2024-08-29",
+      "priority": "Medium",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "title": "Create Database Schema",
+      "description": "Design and create the database schema for the project.",
+      "priority": "Medium",
+      "dueDate": "2024-08-28",
+      "status": "incomplete"
+    },
+    {
+      "title": "Frontend UI Design",
+      "description": "Design the user interface for the homepage.",
+      "dueDate": "2024-07-18",
+      "priority": "Medium",
+      "id": "3"
+    },
+    {
+      "id": "4",
+      "title": "Implement User Authentication",
+      "description": "Develop and integrate user authentication using JWT.",
+      "priority": "High",
+      "dueDate": "2024-08-25",
+      "status": "incomplete"
+    },
+    {
+      "id": "5",
+      "title": "Create Database Schema",
+      "description": "Design and create the database schema for the project.",
+      "priority": "Medium",
+      "dueDate": "2024-08-28",
+      "status": "incomplete"
+    },
+    {
+      "id": "6",
+      "title": "Frontend UI Design",
+      "description": "Design the user interface for the homepage.",
+      "priority": "Low",
+      "dueDate": "2024-09-01",
+      "status": "incomplete"
+    },
+    {
+      "id": "7",
+      "title": "Implement User Authentication",
+      "description": "Develop and integrate user authentication using JWT.",
+      "priority": "High",
+      "dueDate": "2024-08-25",
+      "status": "incomplete"
+    },
+    {
+      "id": "8",
+      "title": "Create Database Schema",
+      "description": "Design and create the database schema for the project.",
+      "priority": "Medium",
+      "dueDate": "2024-08-28",
+      "status": "incomplete"
+    },
+    {
+      "id": "9",
+      "title": "Frontend UI Design",
+      "description": "Design the user interface for the homepage.",
+      "priority": "Low",
+      "dueDate": "2024-09-01",
+      "status": "incomplete"
+    },
+    {
+      "id": "10",
+      "title": "Implement User Authentication",
+      "description": "Develop and integrate user authentication using JWT.",
+      "priority": "High",
+      "dueDate": "2024-08-25",
+      "status": "incomplete"
+    },
+    {
+      "id": "11",
+      "title": "Create Database Schema",
+      "description": "Design and create the database schema for the project.",
+      "priority": "Medium",
+      "dueDate": "2024-08-28",
+      "status": "incomplete"
+    },
+    {
+      "id": "12",
+      "title": "Frontend UI Design",
+      "description": "Design the user interface for the homepage.",
+      "priority": "Low",
+      "dueDate": "2024-09-01",
+      "status": "incomplete"
+    }
+  ]
+}

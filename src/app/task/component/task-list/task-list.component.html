@@ -1,0 +1,233 @@
+<p-toast></p-toast>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00b7eb">
+  <div class="container-fluid">
+    <!-- <a class="navbar-brand " href="#">task Management System</a> -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      </ul>
+      <!-- <form class="d-flex" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form> -->
+      <div class="rightIcon">
+        <i class="bi bi-person"></i>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ---------------Sidebar ------------------->
+<div>
+  <div class="sidebar">
+    <ul class="sidebar-menu">
+      <li>
+        <a class="nav-link logo" style="font-size: 15px;"> Task Management</a>
+      </li>
+      <li>
+        <a class="nav-link">
+          <span class="icon">
+            <i class="bi bi-house"></i>
+          </span>
+          Dashboard
+        </a>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="table-container mt-2">
+    <div class="grid">
+      <div class="col-12">
+        <div class="card">
+          <h5>Task List</h5>
+          <i class="pi pi-pencil"></i>
+          <p-table [value]="taskInfo" dataKey="id" [rows]="10" [rowHover]="true" styleClass="p-datatable-striped"
+            [paginator]="true" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+              <div class="flex justify-content-between">
+                <p-button label="Add New Task" severity="success" (click)="addNewtask()"></p-button>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-between align-items-center">
+                    Title
+                  </div>
+                </th>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-between align-items-center">
+                    Description
+                  </div>
+                </th>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-between align-items-center">
+                    Priority
+                  </div>
+                </th>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-between align-items-center">
+                    Due Date
+                  </div>
+                </th>
+                <th style="min-width: 10rem">
+                  <div class="flex justify-content-between align-items-center">
+                    Actions
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-task>
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.priority }}</td>
+                <td>{{ task.dueDate | date:'dd/MM/yyyy' }}</td>
+
+                <td class="text-center cursor">
+                  <i class="bi bi-pencil" pTooltip="Edit Task" tooltipPosition="left" (click)="setForm(task)"></i>
+                  <i class="bi bi-trash" pTooltip="Delete Taks" (click)="showConfirmation(task)"></i>
+
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="8">No Task found.</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+              <tr>
+                <td colspan="8">Loading Task data. Please wait.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Edit Task" [(visible)]="editTaskPopup" [style]="{ width: '50vw' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [modal]="true"
+  [closable]="false">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="TaskForm" (ngSubmit)="onSubmit()">
+          <!-- Title and Description -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="title">Title:</label>
+                <input pInputText id="title" type="text" class="form-control" placeholder="Enter Title" formControlName="title" />
+                <small *ngIf="TaskForm.controls['title'].invalid && TaskForm.controls['title'].touched" class="text-danger">Title is required</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" class="form-control" placeholder="Enter Description" formControlName="description" rows="2"></textarea>
+                <small *ngIf="TaskForm.controls['description'].invalid && TaskForm.controls['description'].touched" class="text-danger">Description is required</small>
+              </div>
+            </div>
+          </div>
+          <!-- Priority and Due Date -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="priority">Priority:</label>
+                <p-dropdown id="priority" [options]="priorityOptions" optionValue="name" formControlName="priority" placeholder="Select a Priority" optionLabel="name"></p-dropdown>
+                <small *ngIf="TaskForm.controls['priority'].invalid && TaskForm.controls['priority'].touched" class="text-danger">Priority is required</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" class="form-control" formControlName="dueDate" [attr.min]="minDate" />
+                <small *ngIf="TaskForm.controls['dueDate'].invalid && TaskForm.controls['dueDate'].touched" class="text-danger">Due Date is required</small>
+              </div>
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div class="d-flex justify-content-center">
+            <p-button type="submit" label="Submit" class="me-2" [disabled]="TaskForm.invalid"></p-button>
+            <p-button type="button" label="Cancel" severity="secondary" (click)="closeDialog()"></p-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</p-dialog>
+
+
+
+<p-dialog header="Add Task"  [(visible)]="addTaskPopup" [style]="{ width: '50vw' }" [draggable]="false" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [modal]="true"
+  [closable]="false">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="TaskForm" (ngSubmit)="onSubmit()">
+          <!-- Title and Description -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="title">Title:</label>
+                <input pInputText id="title" type="text" class="form-control" placeholder="Enter Title" formControlName="title" />
+                <small *ngIf="TaskForm.controls['title'].invalid && TaskForm.controls['title'].touched" class="text-danger">Title is required</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" class="form-control" placeholder="Enter Description" formControlName="description" rows="2"></textarea>
+                <small *ngIf="TaskForm.controls['description'].invalid && TaskForm.controls['description'].touched" class="text-danger">Description is required</small>
+              </div>
+            </div>
+          </div>
+          <!-- Priority and Due Date -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="priority">Priority:</label>
+                <p-dropdown id="priority" [options]="priorityOptions" optionValue="name" formControlName="priority" placeholder="Select a Priority" optionLabel="name"></p-dropdown>
+                <small *ngIf="TaskForm.controls['priority'].invalid && TaskForm.controls['priority'].touched" class="text-danger">Priority is required</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" class="form-control" formControlName="dueDate" [attr.min]="minDate" />
+                <small *ngIf="TaskForm.controls['dueDate'].invalid && TaskForm.controls['dueDate'].touched" class="text-danger">Due Date is required</small>
+              </div>
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div class="d-flex justify-content-center">
+            <p-button type="submit" label="Submit" class="me-2" [disabled]="TaskForm.invalid"></p-button>
+            <p-button type="button" label="Cancel" severity="secondary" (click)="closeDialog()"></p-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</p-dialog>
+
+<p-dialog header="Confirm?" [(visible)]="displayConfirmation" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [modal]="true" [closable]="false" [responsive]="true">
+  <p>Are you sure you want to delete this task?</p>
+  <button type="button" pButton icon="pi pi-check" (click)="deleteItem()" label="Yes"
+    class="p-button-success margin"></button>
+  <button type="button" pButton icon="pi pi-times" (click)="hideConfirmation()" label="No"
+    class="p-button-danger"></button>
+</p-dialog>
