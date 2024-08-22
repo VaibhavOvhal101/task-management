@@ -7,7 +7,7 @@ import { Task } from '../interface/task.constant';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://task-zj0q.onrender.com';
 
   constructor(private http: HttpClient) { }
   
