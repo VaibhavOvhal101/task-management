@@ -89,8 +89,9 @@
             </ng-template>
             <ng-template pTemplate="body" let-task>
               <tr>
-                <td>{{ task.title }}</td>
-                <td>{{ task.description }}</td>
+                <td pTooltip="{{ task.title}}" tooltipPosition="top">{{ task.title }}</td>
+                <td pTooltip="{{ task.description }}" tooltipPosition="top">{{ task.description.length > 20 ?
+                  (task.description | slice:0:20) + '...' : task.description }}</td>
                 <td>{{ task.priority }}</td>
                 <td>{{ task.dueDate | date:'dd/MM/yyyy' }}</td>
 
@@ -118,46 +119,57 @@
   </div>
 </div>
 
-<p-dialog header="Edit Task" [(visible)]="editTaskPopup" [style]="{ width: '50vw' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [modal]="true"
-  [closable]="false">
+<p-dialog header="Edit Task" [(visible)]="editTaskPopup" [style]="{ width: '50vw' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [modal]="true" [closable]="false">
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <form [formGroup]="TaskForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="TaskForm" (ngSubmit)="editForm()">
           <!-- Title and Description -->
           <div class="row mb-4">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="title">Title:</label>
-                <input pInputText id="title" type="text" class="form-control" placeholder="Enter Title" formControlName="title" />
-                <small *ngIf="TaskForm.controls['title'].invalid && TaskForm.controls['title'].touched" class="text-danger">Title is required</small>
+                <input pInputText id="title" type="text" class="form-control" placeholder="Enter Title"
+                  formControlName="title" />
+                <small *ngIf="TaskForm.controls['title'].invalid && TaskForm.controls['title'].touched"
+                  class="text-danger">Title is required</small>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea id="description" class="form-control" placeholder="Enter Description" formControlName="description" rows="2"></textarea>
-                <small *ngIf="TaskForm.controls['description'].invalid && TaskForm.controls['description'].touched" class="text-danger">Description is required</small>
+                <textarea id="description" class="form-control" placeholder="Enter Description"
+                  formControlName="description" rows="2"></textarea>
+                <small *ngIf="TaskForm.controls['description'].invalid && TaskForm.controls['description'].touched"
+                  class="text-danger">Description is required</small>
               </div>
             </div>
           </div>
           <!-- Priority and Due Date -->
-          <div class="row mb-4">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="priority">Priority:</label>
-                <p-dropdown id="priority" [options]="priorityOptions" optionValue="name" formControlName="priority" placeholder="Select a Priority" optionLabel="name"></p-dropdown>
-                <small *ngIf="TaskForm.controls['priority'].invalid && TaskForm.controls['priority'].touched" class="text-danger">Priority is required</small>
+          <div class="container">
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="priority">Priority:</label>
+                  <p-dropdown id="priority" [options]="priorityOptions" optionValue="name" formControlName="priority"
+                    placeholder="Select a Priority" optionLabel="name" class="form-control">
+                  </p-dropdown>
+                  <small *ngIf="TaskForm.controls['priority'].invalid && TaskForm.controls['priority'].touched"
+                    class="text-danger">Priority is required</small>
+                </div>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="dueDate">Due Date:</label>
-                <input type="date" id="dueDate" class="form-control" formControlName="dueDate" [attr.min]="minDate" />
-                <small *ngIf="TaskForm.controls['dueDate'].invalid && TaskForm.controls['dueDate'].touched" class="text-danger">Due Date is required</small>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="dueDate">Due Date:</label>
+                  <input type="date" id="dueDate" class="form-control" formControlName="dueDate" [attr.min]="minDate" />
+                  <small *ngIf="TaskForm.controls['dueDate'].invalid && TaskForm.controls['dueDate'].touched"
+                    class="text-danger">Due Date is required</small>
+                </div>
               </div>
             </div>
           </div>
+
           <!-- Buttons -->
           <div class="d-flex justify-content-center">
             <p-button type="submit" label="Submit" class="me-2" [disabled]="TaskForm.invalid"></p-button>
@@ -167,51 +179,62 @@
       </div>
     </div>
   </div>
-  
+
 </p-dialog>
 
 
 
-<p-dialog header="Add Task"  [(visible)]="addTaskPopup" [style]="{ width: '50vw' }" [draggable]="false" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [modal]="true"
-  [closable]="false">
+<p-dialog header="Add Task" [(visible)]="addTaskPopup" [style]="{ width: '50vw' }" [draggable]="false"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [modal]="true" [closable]="false">
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <form [formGroup]="TaskForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="TaskForm" (ngSubmit)="submitForm()">
           <!-- Title and Description -->
           <div class="row mb-4">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="title">Title:</label>
-                <input pInputText id="title" type="text" class="form-control" placeholder="Enter Title" formControlName="title" />
-                <small *ngIf="TaskForm.controls['title'].invalid && TaskForm.controls['title'].touched" class="text-danger">Title is required</small>
+                <input pInputText id="title" type="text" class="form-control" placeholder="Enter Title"
+                  formControlName="title" />
+                <small *ngIf="TaskForm.controls['title'].invalid && TaskForm.controls['title'].touched"
+                  class="text-danger">Title is required</small>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea id="description" class="form-control" placeholder="Enter Description" formControlName="description" rows="2"></textarea>
-                <small *ngIf="TaskForm.controls['description'].invalid && TaskForm.controls['description'].touched" class="text-danger">Description is required</small>
+                <textarea id="description" class="form-control" placeholder="Enter Description"
+                  formControlName="description" rows="2"></textarea>
+                <small *ngIf="TaskForm.controls['description'].invalid && TaskForm.controls['description'].touched"
+                  class="text-danger">Description is required</small>
               </div>
             </div>
           </div>
           <!-- Priority and Due Date -->
-          <div class="row mb-4">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="priority">Priority:</label>
-                <p-dropdown id="priority" [options]="priorityOptions" optionValue="name" formControlName="priority" placeholder="Select a Priority" optionLabel="name"></p-dropdown>
-                <small *ngIf="TaskForm.controls['priority'].invalid && TaskForm.controls['priority'].touched" class="text-danger">Priority is required</small>
+          <div class="container">
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="priority">Priority:</label>
+                  <p-dropdown id="priority" [options]="priorityOptions" optionValue="name" formControlName="priority"
+                    placeholder="Select a Priority" optionLabel="name" class="form-control">
+                  </p-dropdown>
+                  <small *ngIf="TaskForm.controls['priority'].invalid && TaskForm.controls['priority'].touched"
+                    class="text-danger">Priority is required</small>
+                </div>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="dueDate">Due Date:</label>
-                <input type="date" id="dueDate" class="form-control" formControlName="dueDate" [attr.min]="minDate" />
-                <small *ngIf="TaskForm.controls['dueDate'].invalid && TaskForm.controls['dueDate'].touched" class="text-danger">Due Date is required</small>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="dueDate">Due Date:</label>
+                  <input type="date" id="dueDate" class="form-control" formControlName="dueDate" [attr.min]="minDate" />
+                  <small *ngIf="TaskForm.controls['dueDate'].invalid && TaskForm.controls['dueDate'].touched"
+                    class="text-danger">Due Date is required</small>
+                </div>
               </div>
             </div>
           </div>
+
           <!-- Buttons -->
           <div class="d-flex justify-content-center">
             <p-button type="submit" label="Submit" class="me-2" [disabled]="TaskForm.invalid"></p-button>
@@ -221,10 +244,11 @@
       </div>
     </div>
   </div>
-  
+
 </p-dialog>
 
-<p-dialog header="Confirm?" [(visible)]="displayConfirmation" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [modal]="true" [closable]="false" [responsive]="true">
+<p-dialog header="Confirm?" [(visible)]="displayConfirmation" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [modal]="true" [closable]="false" [responsive]="true">
   <p>Are you sure you want to delete this task?</p>
   <button type="button" pButton icon="pi pi-check" (click)="deleteItem()" label="Yes"
     class="p-button-success margin"></button>

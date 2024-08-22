@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { TaskService } from '../../service/task.service';
@@ -6,45 +6,40 @@ import { Task } from '../../interface/task.constant';
 interface Priority {
   name: string;
 }
+
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
   providers: [MessageService]
 })
+
 export class TaskListComponent {
-  customers: any;
   editTaskPopup: boolean = false;
   taskInfoPopup: boolean = false;
   addTaskPopup: boolean = false;
-
   TaskForm!: FormGroup;
   priorityOptions: Priority[] = [];
   gender: string = '';
-  selectedtaskInfo: any;
-  selectedtaskedit: any;
-  taskInfo: any;
-  SelectedId: any;
+  selectedtaskedit!: Task;
+  taskInfo: Task[] = [];
+  SelectedId!: number;
   selectedFiles: string = ''
   displayConfirmation: boolean = false;
   completeTask: boolean = false
-  deleteId: any;
-  tempData: any;
+  deleteId!: number;
   minDate: string;
 
-
-  constructor(private fb: FormBuilder, private messageService: MessageService, private cd: ChangeDetectorRef, private service: TaskService) {
-   
+  constructor(private fb: FormBuilder, private messageService: MessageService, private service: TaskService) {
     this.TaskForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       dueDate: ['', Validators.required],
       priority: ['', Validators.required],
-
     });
+
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
-
     this.priorityOptions = [
       { name: 'Select Priority' },
       { name: 'High' },
@@ -52,11 +47,13 @@ export class TaskListComponent {
       { name: 'Low' },
     ];
   }
+
   onSubmit() {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task Updated Successfully' })
     this.TaskForm.reset();
     this.editTaskPopup = false;
   }
+
   setForm(taskInfo: Task) {
     this.SelectedId = taskInfo.id;
     this.selectedtaskedit = taskInfo;
@@ -72,69 +69,70 @@ export class TaskListComponent {
     this.editTaskPopup = true;
   }
 
-
   editForm() {
     let formValue = this.TaskForm.value;
     this.service.editTask(formValue, this.SelectedId).subscribe((res) => {
-      this.gettaskdata();
+      this.onSubmit()
+      this.getTaskData();
     })
   }
+
   closeDialog() {
-    this.addTaskPopup=false
+    this.addTaskPopup = false
     this.editTaskPopup = false;
     this.TaskForm.reset()
   }
-  closeDialog2() {
-    this.addTaskPopup = false;
-    this.TaskForm.reset()
-  }
-  submitForm() {
-    const taskData = {
-      title: this.TaskForm.get('title')?.value,
-      description: this.TaskForm.get('description')?.value,
-      dueDate: this.TaskForm.get('dueDate')?.value,
-      priority: this.TaskForm.get('priority')?.value
-    };
-    this.service.addTask(taskData).subscribe((res) => {
+
+  submitForm(): void {
+    const taskData = this.TaskForm.value;
+    this.service.addTask(taskData).subscribe(() => {
       this.addTaskPopup = false;
-      this.gettaskdata();
+      this.getTaskData();
       this.TaskForm.reset();
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Task Created Successfully' });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Task Created Successfully'
+      });
     });
   }
 
-  onFileChange(event: any) {
-    this.selectedFiles = event.target.files[0]
-  }
   addNewtask() {
     this.addTaskPopup = true
   }
-  gettaskdata() {
+
+  getTaskData() {
     this.service.getTaskList().subscribe((res) => {
       this.taskInfo = res.reverse();
     })
   }
-  onCloseInfo() {
-    this.taskInfoPopup = false
-  }
-  showConfirmation(task: any) {
-    this.deleteId = task.id
+
+  showConfirmation(task: Task) {
+    this.deleteId = task.id;
     this.displayConfirmation = true;
   }
+
   hideConfirmation() {
     this.displayConfirmation = false;
     this.completeTask = false
   }
-  deleteItem() {
-    this.service.deleteTask(this.deleteId).subscribe((res) => {
-      this.messageService.add({ severity: 'success', summary: 'Delete', detail: 'Task Deleted Successfully' });
-      this.gettaskdata();
-    })
-    this.hideConfirmation();
-  }
-  ngOnInit() {
-    this.gettaskdata();
+
+  deleteItem(): void {
+    if (this.deleteId) {
+      this.service.deleteTask(this.deleteId).subscribe(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Delete',
+          detail: 'Task Deleted Successfully'
+        });
+        this.getTaskData();
+      });
+      this.hideConfirmation();
+    }
   }
 
+  ngOnInit() {
+    this.getTaskData();
+  }
 
 }
